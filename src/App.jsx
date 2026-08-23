@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Analytics } from '@vercel/analytics/react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Navbar from './components/Navbar';
 // import Hero from './components/Hero';
@@ -56,6 +57,7 @@ function App() {
           <Contact />
         </main>
         <ScrollToTop />
+        <Analytics />
       </div>
     </ThemeProvider>
   );
