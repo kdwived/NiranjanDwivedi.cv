@@ -1,0 +1,17 @@
+# niranjandwivedi.cv
+User-agent: *
+Allow: /
+
+# AI answer engines — allowed on purpose, so the site can be cited
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://niranjandwivedi.cv/sitemap.xml

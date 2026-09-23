@@ -1,0 +1,10 @@
+{
+  "name": "Niranjan Dwivedi — Marketing, Technology, AI & Automation",
+  "short_name": "Niranjan Dwivedi",
+  "description": "Growth systems connecting performance marketing, lead generation, CRM, AI automation and web development.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05060a",
+  "theme_color": "#05060a",
+  "icons": [{ "src": "/logos/logo.png", "sizes": "any", "type": "image/png" }]
+}

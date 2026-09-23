@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ink text-white/80 font-sans antialiased;
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(34, 211, 238, 0.3);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #05060a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(#22d3ee, #8b5cf6);
+    border-radius: 999px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  .glass {
+    @apply rounded-2xl border border-white/10 bg-white/[0.035] backdrop-blur-xl;
+    box-shadow:
+      0 1px 0 0 rgba(255, 255, 255, 0.06) inset,
+      0 24px 60px -30px rgba(0, 0, 0, 0.9);
+  }
+
+  .eyebrow {
+    @apply font-mono text-[10px] uppercase tracking-[0.35em] text-cyan/80;
+  }
+
+  .section-title {
+    @apply text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl;
+  }
+
+  .grad-text {
+    @apply bg-gradient-to-r from-cyan via-violet to-magenta bg-clip-text text-transparent;
+  }
+
+  .chip {
+    @apply rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-white/60;
+  }
+
+  .rule {
+    @apply h-px w-full bg-gradient-to-r from-white/15 to-transparent;
+  }
+}
+
+/* Fixed WebGL canvas sits behind every overlay section */
+.world-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Veil that keeps text readable over the moving 3D world */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(130% 85% at 50% 50%, rgba(5, 6, 10, 0) 50%, rgba(5, 6, 10, 0.5) 100%),
+    linear-gradient(
+      to bottom,
+      rgba(5, 6, 10, 0.5) 0%,
+      rgba(5, 6, 10, 0.15) 28%,
+      rgba(5, 6, 10, 0.15) 72%,
+      rgba(5, 6, 10, 0.55) 100%
+    );
+}
+
+/* On narrow screens the world sits directly behind the text, so it steps back:
+   the canvas itself is dimmed and the veil is heavier. */
+@media (max-width: 899px) {
+  .world-canvas {
+    opacity: 0.55;
+  }
+
+  .scrim {
+    background: linear-gradient(
+      to bottom,
+      rgba(5, 6, 10, 0.76) 0%,
+      rgba(5, 6, 10, 0.6) 25%,
+      rgba(5, 6, 10, 0.6) 75%,
+      rgba(5, 6, 10, 0.8) 100%
+    );
+  }
+}
+
+.overlay {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 28s linear infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
