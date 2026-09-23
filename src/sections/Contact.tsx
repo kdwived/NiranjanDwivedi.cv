@@ -9,7 +9,7 @@ const field =
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
 
@@ -23,7 +23,9 @@ export default function Contact() {
 
     if (!web3formsKey) {
       const subject = encodeURIComponent(form.subject || `Portfolio enquiry from ${form.name}`)
-      const body = encodeURIComponent(`${form.message}\n\n—\n${form.name}\n${form.email}`.trim())
+      const body = encodeURIComponent(
+        `${form.message}\n\n—\n${form.name}\n${form.email}\n${form.phone}`.trim(),
+      )
       window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`
       return
     }
@@ -39,6 +41,7 @@ export default function Contact() {
           access_key: web3formsKey,
           name: form.name,
           email: form.email,
+          phone: form.phone,
           subject: form.subject || `Portfolio enquiry from ${form.name}`,
           message: form.message,
           from_name: 'niranjandwivedi.cv',
@@ -47,7 +50,7 @@ export default function Contact() {
       const data = await res.json()
       if (data.success) {
         setStatus('sent')
-        setForm({ name: '', email: '', subject: '', message: '' })
+        setForm({ name: '', email: '', phone: '', subject: '', message: '' })
       } else {
         setStatus('error')
         setError(data.message || 'Something went wrong. Please email me directly.')
@@ -86,13 +89,24 @@ export default function Contact() {
                 Projects, collaborations &amp; business opportunities
               </p>
 
-              <a
-                href={`tel:${profile.phone.replace(/\s/g, '')}`}
-                className="mt-6 block text-lg font-semibold text-white transition-colors hover:text-cyan"
-              >
-                {profile.phone}
-              </a>
-              <p className="mt-1 text-xs text-white/35">Available for professional conversations</p>
+              <div className="mt-6 border-t border-white/10 pt-5">
+                <p className="eyebrow mb-2">Mobile</p>
+                <a
+                  href={`tel:${profile.phone.replace(/\s/g, '')}`}
+                  className="block text-lg font-semibold text-white transition-colors hover:text-cyan"
+                >
+                  {profile.phone}
+                </a>
+                <p className="mt-1 text-xs text-white/35">Available for professional conversations</p>
+                <a
+                  href={`https://wa.me/${profile.phone.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 inline-flex text-xs font-semibold text-cyan transition-colors hover:text-white"
+                >
+                  Message on WhatsApp →
+                </a>
+              </div>
             </Card>
 
             <Card>
@@ -187,6 +201,17 @@ export default function Contact() {
                     placeholder="Email"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  />
+                  <input
+                    required
+                    type="tel"
+                    name="phone"
+                    autoComplete="tel"
+                    inputMode="tel"
+                    className={field}
+                    placeholder="Mobile number"
+                    value={form.phone}
+                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   />
                 </div>
                 <input
